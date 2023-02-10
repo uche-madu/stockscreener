@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - 8005:8000
+    environment:
+      DATABASE_URL: postgresql://${PGUSER}:${PGPASSWORD}@db:${PGPORT}/${PGDATABASE}
+    depends_on:
+      - db
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - ${PGPORT}
+    environment:
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PGDATABASE}
+    restart: always
+
+volumes:
+  postgres_data:

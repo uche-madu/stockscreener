@@ -1,4 +1,3 @@
-from turtle import forward
 from sqlalchemy import Column, Integer, Numeric, String
 
 from .database import Base

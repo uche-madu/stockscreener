@@ -1,16 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-import uvicorn
-
-from enum import Enum
-from typing import Union
-from pydantic import BaseModel
-
 from sqlalchemy.orm import Session
-
-from sql_app import models
-from sql_app.database import SessionLocal, engine
+from .db import models
+from .db.database import SessionLocal, engine
 
 app = FastAPI()
 
@@ -40,5 +33,5 @@ def create_stock():
         "message": "stock created"
     }
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host='localhost', port=8005, reload=True)
+#if __name__ == "__main__":
+#    uvicorn.run("main:app", host='localhost', port=8005, reload=True)
