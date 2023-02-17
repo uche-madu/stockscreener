@@ -2,15 +2,19 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
-from .db import models
-from .db.database import SessionLocal, engine
+import uvicorn
+from pathlib import Path
+
+from app.db import models
+from app.db.database import SessionLocal, engine
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
 
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
 
+templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'app/templates')))
 
 @app.get("/", response_class=HTMLResponse)
 def dashboard(request: Request):
@@ -33,5 +37,5 @@ def create_stock():
         "message": "stock created"
     }
 
-#if __name__ == "__main__":
-#    uvicorn.run("main:app", host='localhost', port=8005, reload=True)
+if __name__ == "__main__":
+    uvicorn.run("main:app", host='localhost', port=8005, reload=True)
