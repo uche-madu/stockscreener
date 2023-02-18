@@ -4,10 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 from ..core.config import settings
 
-
 SQLALCHEMY_DATABASE_URL = settings.db_url
-#SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
-#SQLALCHEMY_DATABASE_URL = f'postgresql+psycopg2://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}'
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
